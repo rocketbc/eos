@@ -31,7 +31,6 @@ export TEST_LABEL="[eosio_build_amazonlinux]"
     run bash -c "printf \"y\nn\nn\n\" | ./${SCRIPT_LOCATION}"
     [[ ! -z $(echo "${output}" | grep "Unable to find compiler \"c++\"! Pass in the -P option if you wish for us to install it OR set \$CXX to the proper binary location.") ]] || exit
 
-
     run bash -c "printf \"y\n%.0s\" {1..100} | ./$SCRIPT_LOCATION -P"
     [[ ! -z $(echo "${output}" | grep "Executing: make -j${JOBS}") ]] || exit
     ### Make sure deps are loaded properly

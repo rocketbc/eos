@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -eio pipefail
+set -eo pipefail
 VERSION=2.0
 ##########################################################################
 # This is the EOSIO automated install script for Linux and Mac OS.
@@ -35,19 +35,15 @@ VERSION=2.0
 # Load eosio specific helper functions
 . ./scripts/helpers/eosio.bash
 
-CMAKE_BUILD_TYPE=Release
-TIME_BEGIN=$( date -u +%s )
-
-txtbld=$(tput bold)
-bldred=${txtbld}$(tput setaf 1)
-txtrst=$(tput sgr0)
+[[ ! $NAME == "Ubuntu" ]] && set -i # Ubuntu doesn't support interactive mode since it uses dash
 
 [[ ! -d $BUILD_DIR ]] && printf "${COLOR_RED}Please run ./eosio_build.bash first!${COLOR_NC}" && exit 1
 echo "${COLOR_CYAN}====================================================================================="
 echo "========================== ${COLOR_WHITE}Starting EOSIO Installation${COLOR_CYAN} ==============================${COLOR_NC}"
-pushd "${BUILD_DIR}" 1>/dev/null
+execute cd $BUILD_DIR
+CMAKE_INSTALL_PREFIX=$(grep ^CMAKE_INSTALL_PREFIX: CMakeCache.txt | sed 's/.*=//')
 execute make install
-popd &> /dev/null 
+execute cd ..
 
 printf "\n${COLOR_RED}      ___           ___           ___                       ___\n"
 printf "     /  /\\         /  /\\         /  /\\        ___          /  /\\ \n"
