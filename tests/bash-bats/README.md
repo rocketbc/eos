@@ -1,11 +1,12 @@
 # BATS Bash Testing
 
-For each bash script we have, there should be a separate .bash file within REPO_ROOT/tests/bash-bats/.
+For each bash script we have, there should be a separate .bash file within `REPO_ROOT/tests/bash-bats/`.
+
+### Usage notes:
 
 - DRYRUN=true is required for all tests and automatically enabled. You can use this when you're manually running eosio_build.bash (`DRYRUN=true VERBOSE=true ./scripts/eosio_build.bash`)
 - execute-always gets around DRYRUN and runs stuff anyway (which installation uses this)
-
- - Running all tests: 
+- To run all tests: 
     ```
     $ ./tests/bash-bats/bats-core/bin/bats tests/bash-bats/*.bash
       ✓ [eosio_build_darwin] > Testing -y/NONINTERACTIVE/PROCEED
@@ -21,13 +22,17 @@ For each bash script we have, there should be a separate .bash file within REPO_
 
       10 tests, 0 failures
     ```
+- Verbose bats output ( `-t` ): 
+  ```
+  ./tests/bash-bats/bats-core/bin/bats -t tests/bash-bats/*.bash
+  ```
 
 ---
 
-### Running Docker Environments for Testing
+### Running all tests for all distros:
 ```
 echo "[Darwin]"
-./tests/bash-bats/bats-core/bin/bats -t tests/bash-bats/*.bash
+./tests/bash-bats/bats-core/bin/bats -t tests/bash-bats/*.bash 
 echo "[Ubuntu 16]"
 docker run --rm -ti -v $HOME/BLOCKONE/eos.bats:/eos ubuntu:16.04 bash -c "cd /eos && ./tests/bash-bats/bats-core/bin/bats -t tests/bash-bats/*.bash"
 echo "[Ubuntu 18]"
@@ -36,18 +41,14 @@ echo "[AmazonLinux 2]"
 docker run --rm -ti -v $HOME/BLOCKONE/eos.bats:/eos amazonlinux:2 bash -c "cd /eos && ./tests/bash-bats/bats-core/bin/bats -t tests/bash-bats/*.bash"
 echo "[Centos 7]"
 docker run --rm -ti -v $HOME/BLOCKONE/eos.bats:/eos centos:7 bash -c "cd /eos && ./tests/bash-bats/bats-core/bin/bats -t tests/bash-bats/*.bash"
-
 ```
 
-#### Start docker first, then run (keeping installed packages + faster tests)
+### **Faster testing:** Start docker first, then run (keeping installed packages + faster tests)
 ```
 docker run --name ubuntu16 -d -t -v $HOME/BLOCKONE/eos.bats:/eos ubuntu:16.04 /bin/bash
 docker run --name ubuntu18 -d -t -v $HOME/BLOCKONE/eos.bats:/eos ubuntu:18.04 /bin/bash
 docker run --name amazonlinux2 -d -t -v $HOME/BLOCKONE/eos.bats:/eos amazonlinux:2 /bin/bash
 docker run --name centos7 -d -t -v $HOME/BLOCKONE/eos.bats:/eos centos:7 /bin/bash
-
-echo "[Darwin]"
-./tests/bash-bats/bats-core/bin/bats -t tests/bash-bats/*.bash 
 echo "[Ubuntu 16]"
 docker exec -it ubuntu16 bash -c "cd /eos && ./tests/bash-bats/bats-core/bin/bats -t tests/bash-bats/*.bash"
 echo "[Ubuntu 18]"
@@ -59,4 +60,3 @@ docker exec -it centos7 bash -c "cd /eos && ./tests/bash-bats/bats-core/bin/bats
 ```
 
 - You'll need to modify the volume path ($HOME/BLOCKONE/eos.bats) to indicate where you've got eos cloned locally.
-- Use -t option for better output (required when using debug function to see output)

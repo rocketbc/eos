@@ -363,7 +363,7 @@ function ensure-yum-packages() {
             esac
         done
     else
-        echo " - No required package dependencies to install."
+        echo "${COLOR_GREEN} - No required package dependencies to install.${COLOR_NC}"
         echo ""
     fi
 }
@@ -415,7 +415,7 @@ function ensure-brew-packages() {
                         esac
                     done
                     execute brew tap eosio/eosio
-                    echo "${COLOR_GREEN}[Installing HomeBrew Dependencies]${COLOR_NC}"
+                    echo "${COLOR_CYAN}[Installing HomeBrew Dependencies]${COLOR_NC}"
                     execute eval $BREW install $DEPS
                     IFS="$OIFS"
                 break;;
@@ -424,7 +424,7 @@ function ensure-brew-packages() {
             esac
         done
     else
-        echo " - No required package dependencies to install."
+        echo "${COLOR_GREEN} - No required package dependencies to install.${COLOR_NC}"
         echo ""
     fi
 }
@@ -465,7 +465,7 @@ function ensure-apt-packages() {
             esac
         done
     else
-        echo " - No required package dependencies to install."
+        echo "${COLOR_GREEN} - No required package dependencies to install.${COLOR_NC}"
         echo ""
     fi
 }
