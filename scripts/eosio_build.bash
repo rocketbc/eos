@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -ieo pipefail
+set -eo pipefail
 SCRIPT_VERSION=3.0 # Build script version (change this to re-build the CICD image)
 ##########################################################################
 # This is the EOSIO automated install script for Linux and Mac OS.
@@ -109,6 +109,8 @@ fi
 
 # Load eosio specific helper functions
 . ./scripts/helpers/eosio.bash
+
+[[ ! $NAME == "Ubuntu" ]] && set -i # Ubuntu doesn't support interactive mode since it uses dash
 
 # Test that which is on the system before proceeding
 if ! which ls &>/dev/null; then
