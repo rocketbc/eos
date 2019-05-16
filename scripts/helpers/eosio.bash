@@ -114,7 +114,7 @@ function ensure-scl() {
     fi
 }
 
-function ensure-devtoolset7() {
+function ensure-devtoolset() {
     echo "${COLOR_CYAN}[Ensuring installation of devtoolset-7 (GCC7)]${COLOR_NC}"
     DEVTOOLSET=$( rpm -qa | grep -E 'devtoolset-7-[0-9].*' || true )
     if [[ -z "${DEVTOOLSET}" ]]; then

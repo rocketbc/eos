@@ -16,7 +16,7 @@ echo ""
 ensure-scl
 # GCC7 for Centos
 if [[ $PIN_COMPILER == false ]]; then
-	ensure-devtoolset7
+	ensure-devtoolset
 	if [[ -d /opt/rh/devtoolset-7 ]]; then
 		echo "${COLOR_CYAN}[Enabling Centos devtoolset-7 (so we can use GCC 7)]${COLOR_NC}"
 		execute-always source /opt/rh/devtoolset-7/enable
