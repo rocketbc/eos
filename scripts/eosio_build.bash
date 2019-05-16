@@ -148,7 +148,6 @@ ensure-submodules-up-to-date
 
 # Use existing cmake on system (either global or specific to eosio)
 # Setup based on architecture
-echo "Architecture: ${ARCH}"
 if [ "$ARCH" == "Linux" ]; then
    export CMAKE=${CMAKE:-${EOSIO_INSTALL_DIR}/bin/cmake}
    [[ $CURRENT_USER == "root" ]] || ensure-sudo
@@ -188,6 +187,7 @@ echo "${COLOR_CYAN}=============================================================
 echo "======================= ${COLOR_WHITE}Starting EOSIO Dependency Install${COLOR_CYAN} ===========================${COLOR_NC}"
 execute cd $SRC_DIR
 set_system_vars # JOBS, Memory, disk space available, etc
+echo "Architecture: ${ARCH}"
 . $FILE # Execute OS specific build file
 execute cd $REPO_ROOT
 
