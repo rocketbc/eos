@@ -28,7 +28,7 @@ while true; do
 done
 echo ""
 # C++7 for Ubuntu 18 (16 build-essential has cpp5)
-# ( [[ $PIN_COMPILER == false ]] && [[ "$(echo ${VERSION_ID})" == "18.04" ]] ) && ensure-build-essential
+( [[ $PIN_COMPILER == false ]] && [[ "$(echo ${VERSION_ID})" == "18.04" ]] ) && ensure-build-essential
 # Handle clang/compiler
 ensure-compiler
 # Ensure packages exist
