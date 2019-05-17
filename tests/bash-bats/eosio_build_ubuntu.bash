@@ -10,16 +10,16 @@ export TEST_LABEL="[eosio_build_ubuntu]"
 
 # A helper function is available to show output and status: `debug`
 
-# # Testing Root user
-# ./tests/bash-bats/modules/root-user.bash
-# # Testing Options
-# ./tests/bash-bats/modules/dep_script_options.bash
-# # Testing CMAKE
-# ./tests/bash-bats/modules/cmake.bash
-# # Testing Clang
-# ./tests/bash-bats/modules/clang.bash
-# # Testing MongoDB
-# ./tests/bash-bats/modules/mongodb.bash
+# Testing Root user
+./tests/bash-bats/modules/root-user.bash
+# Testing Options
+./tests/bash-bats/modules/dep_script_options.bash
+# Testing CMAKE
+./tests/bash-bats/modules/cmake.bash
+# Testing Clang
+./tests/bash-bats/modules/clang.bash
+# Testing MongoDB
+./tests/bash-bats/modules/mongodb.bash
 
 ## Needed to load eosio_build_ files properly; it can be empty
 @test "${TEST_LABEL} > General" {

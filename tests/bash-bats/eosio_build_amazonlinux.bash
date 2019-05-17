@@ -8,16 +8,16 @@ export TEST_LABEL="[eosio_build_amazonlinux]"
 
 # A helper function is available to show output and status: `debug`
 
-# Testing Root user
-./tests/bash-bats/modules/root-user.bash
-# Testing Options
-./tests/bash-bats/modules/dep_script_options.bash
-# Testing CMAKE
-./tests/bash-bats/modules/cmake.bash
-# Testing Clang
-./tests/bash-bats/modules/clang.bash
-# Testing MongoDB
-./tests/bash-bats/modules/mongodb.bash
+# # Testing Root user
+# ./tests/bash-bats/modules/root-user.bash
+# # Testing Options
+# ./tests/bash-bats/modules/dep_script_options.bash
+# # Testing CMAKE
+# ./tests/bash-bats/modules/cmake.bash
+# # Testing Clang
+# ./tests/bash-bats/modules/clang.bash
+# # Testing MongoDB
+# ./tests/bash-bats/modules/mongodb.bash
 
 ## Needed to load eosio_build_ files properly; it can be empty
 @test "${TEST_LABEL} > General" {
@@ -49,9 +49,9 @@ export TEST_LABEL="[eosio_build_amazonlinux]"
     [[ ! -z $(echo "${output}" | grep "make -j${CPU_CORES}") ]] || exit
     [[ -z $(echo "${output}" | grep "MongoDB C++ driver successfully installed") ]] || exit # Mongo is off
     # Ensure PIN_COMPILER=false uses proper flags for the various installs
-    install-package gcc-c++ BYPASS_DRYRUN &>/dev/null
+    install-package gcc-c++ BYPASS_DRYRUN
     run bash -c "./$SCRIPT_LOCATION -y"
     [[ ! -z $(echo "${output}" | grep " -G 'Unix Makefiles'") ]] || exit # CMAKE
     [[ ! -z $(echo "${output}" | grep " --with-iostreams --with-date_time") ]] || exit # BOOST
-    uninstall-package gcc-c++ BYPASS_DRYRUN &>/dev/null
+    uninstall-package gcc-c++ BYPASS_DRYRUN
 }
