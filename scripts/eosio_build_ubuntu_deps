@@ -7,7 +7,6 @@ doxygen,dpkg -s
 graphviz,dpkg -s
 libgmp3-dev,dpkg -s
 autotools-dev,dpkg -s
-build-essential,dpkg -s
 libicu-dev,dpkg -s
 python2.7,dpkg -s
 python2.7-dev,dpkg -s

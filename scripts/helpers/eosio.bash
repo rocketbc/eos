@@ -115,7 +115,7 @@ function ensure-scl() {
 }
 
 function ensure-devtoolset() {
-    echo "${COLOR_CYAN}[Ensuring installation of devtoolset-7 (GCC7)]${COLOR_NC}"
+    echo "${COLOR_CYAN}[Ensuring installation of devtoolset-7 with C++7]${COLOR_NC}"
     DEVTOOLSET=$( rpm -qa | grep -E 'devtoolset-7-[0-9].*' || true )
     if [[ -z "${DEVTOOLSET}" ]]; then
         while true; do
@@ -130,6 +130,25 @@ function ensure-devtoolset() {
         done
     else
         echo " - ${DEVTOOLSET} found."
+    fi
+}
+
+function ensure-build-essential() {
+    echo "${COLOR_CYAN}[Ensuring installation of build-essential with C++7]${COLOR_NC}"
+    BUILD_ESSENTIAL=$( dpkg -s build-essential | grep 'Package: build-essential' || true )
+    if [[ -z $BUILD_ESSENTIAL ]]; then
+        while true; do
+            [[ $NONINTERACTIVE == false ]] && printf "${COLOR_YELLOW}Do you wish to install it? (y/n)?${COLOR_NC}" && read -p " " PROCEED
+            echo ""
+            case $PROCEED in
+                "" ) echo "What would you like to do?";;
+                0 | true | [Yy]* ) install-package build-essential; break;;
+                1 | false | [Nn]* ) echo " - User aborted installation of build-essential."; break;;
+                * ) echo "Please type 'y' for yes or 'n' for no.";;
+            esac
+        done
+    else
+        echo " - ${BUILD_ESSENTIAL} found."
     fi
 }
 
@@ -313,7 +332,8 @@ function ensure-yum-packages() {
     DEPS_FILE="${TEMP_DIR}/$(basename ${1})"
     # Create temp file so we can add to it
     cat $1 > $DEPS_FILE
-    if [[ -n "${2}" ]]; then # Handle EXTRA_DEPS passed in and add them to temp DEPS_FILE
+    if [[ ! -z "${2}" ]]; then # Handle EXTRA_DEPS passed in and add them to temp DEPS_FILE
+        printf "\n" >> $DEPS_FILE # Avoid needing a new line at the end of deps files
         OLDIFS="$IFS"; IFS=$''
         _2=("$(echo $2 | sed 's/-s /-s\n/g')")
         for ((i = 0; i < ${#_2[@]}; i++)); do echo "${_2[$i]}\n" | sed 's/-s\\n/-s/g' >> $DEPS_FILE; done
@@ -373,7 +393,8 @@ function ensure-brew-packages() {
     DEPS_FILE="${TEMP_DIR}/$(basename ${1})"
     # Create temp file so we can add to it
     cat $1 > $DEPS_FILE
-    if [[ -n "${2}" ]]; then # Handle EXTRA_DEPS passed in and add them to temp DEPS_FILE
+    if [[ ! -z "${2}" ]]; then # Handle EXTRA_DEPS passed in and add them to temp DEPS_FILE
+        printf "\n" >> $DEPS_FILE # Avoid needing a new line at the end of deps files
         OLDIFS="$IFS"; IFS=$''
         _2=("$(echo $2 | sed 's/-s /-s\n/g')")
         for ((i = 0; i < ${#_2[@]}; i++)); do echo "${_2[$i]}\n" | sed 's/-s\\n/-s/g' >> $DEPS_FILE; done
@@ -434,7 +455,8 @@ function ensure-apt-packages() {
     DEPS_FILE="${TEMP_DIR}/$(basename ${1})"
     # Create temp file so we can add to it
     cat $1 > $DEPS_FILE
-    if [[ -n "${2}" ]]; then # Handle EXTRA_DEPS passed in and add them to temp DEPS_FILE
+    if [[ ! -z "${2}" ]]; then # Handle EXTRA_DEPS passed in and add them to temp DEPS_FILE
+        printf "\n" >> $DEPS_FILE # Avoid needing a new line at the end of deps files
         OLDIFS="$IFS"; IFS=$''
         _2=("$(echo $2 | sed 's/-s /-s\n/g')")
         for ((i = 0; i < ${#_2[@]}; i++)); do echo "${_2[$i]}" >> $DEPS_FILE; done

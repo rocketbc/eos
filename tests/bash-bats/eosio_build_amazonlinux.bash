@@ -43,6 +43,7 @@ export TEST_LABEL="[eosio_build_amazonlinux]"
         [[ ! -z $(echo "${output}" | grep "make.*found!") ]] || exit
     fi
     [[ ! -z $(echo "${output}" | grep "sudo.*NOT.*found.") ]] || exit
+    [[ -z $(echo "${output}" | grep "-   NOT found.") ]] || exit
     [[ ! -z $(echo "${output}" | grep ${HOME}.*/src/boost) ]] || exit
     [[ ! -z $(echo "${output}" | grep "Starting EOSIO Build") ]] || exit
     [[ ! -z $(echo "${output}" | grep "make -j${CPU_CORES}") ]] || exit

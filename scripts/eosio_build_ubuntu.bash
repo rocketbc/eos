@@ -26,13 +26,15 @@ while true; do
 		* ) echo "Please type 'y' for yes or 'n' for no.";;
 	esac
 done
-
+echo ""
+# C++7 for Ubuntu 18 (16 build-essential has cpp5)
+# ( [[ $PIN_COMPILER == false ]] && [[ "$(echo ${VERSION_ID})" == "18.04" ]] ) && ensure-build-essential
 # Handle clang/compiler
 ensure-compiler
 # Ensure packages exist
 ([[ $PIN_COMPILER == false ]] && [[ $BUILD_CLANG == false ]]) && EXTRA_DEPS=(llvm-4.0,dpkg\ -s libclang-4.0-dev,dpkg\ -s)
 $ENABLE_COVERAGE_TESTING && EXTRA_DEPS+=(lcov,dpkg\ -s)
-ensure-apt-packages "${REPO_ROOT}/scripts/eosio_build_ubuntu_deps" "$(echo ${EXTRA_DEPS[@]}) "
+ensure-apt-packages "${REPO_ROOT}/scripts/eosio_build_ubuntu_deps" $(echo ${EXTRA_DEPS[@]})
 echo ""
 # CMAKE Installation
 ensure-cmake
